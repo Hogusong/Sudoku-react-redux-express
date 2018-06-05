@@ -6,12 +6,17 @@
     "start": "concurrently \"node ./bin/www\" \"cd client && npm start\""
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0",
+    "redux-promise": "^0.6.0"
   },
   "devDependencies": {
     "concurrently": "^3.5.1"

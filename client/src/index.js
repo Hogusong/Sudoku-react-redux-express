@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -32,7 +32,7 @@ ReactDOM.render(
       <footer>
         <span>G</span>od<span>B</span>less<span>U</span> Web Services &copy; 2018
       </footer>
-      </div>
+    </div>
   </Provider>
   , document.getElementById('root'));
 
