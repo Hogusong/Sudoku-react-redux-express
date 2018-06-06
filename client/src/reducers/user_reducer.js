@@ -1,10 +1,14 @@
-import { CREATE_USER } from '../actions'
+import { CREATE_USER, LOGIN_USER, LOGOUT } from '../actions';
 
-export default function(state=[], action) {
+export default function(state=null, action) {
   console.log("in user_reducer:", action)
   switch (action.type) {
     case CREATE_USER:
       return action.payload;
+    case LOGIN_USER:
+      return action.payload;
+    case LOGOUT:
+      return null;
     default:
       return state;
   }

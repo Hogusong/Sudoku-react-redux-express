@@ -1,12 +1,31 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { loginUser } from '../actions';
 
 class LogIn extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '', password: ''
+    }
+    this.accessLogIn = this.accessLogIn.bind(this);
+  }
+  
   closeLogIn() {
     document.getElementById('modal-login').style.display='none';
   }
 
   accessLogIn() {
-    document.getElementById('modal-login').style.display='none';
+    const username = this.state.username.trim();
+    const password = this.state.password.trim();
+    this.props.loginUser({ username, password });
+  }
+
+  componentDidUpdate() {
+    if(this.props.user) {
+      document.getElementById('modal-login').style.display='none';
+    }
   }
 
   render() {
@@ -20,10 +39,16 @@ class LogIn extends Component {
           </div>
           <div className="modal-info">
             <label className="modal-label">Username or Email</label>
-            <input className="modal-input" type="text" placeholder="Enter name or email" />
+            <input className="modal-input" type="text" placeholder="Enter name or email" 
+                    value={this.state.username}
+                    onChange={(e) => this.setState({ username: e.target.value })} />
+
             <label className="modal-label">Password</label>
-            <input className="modal-input" type="password" placeholder="Enter Password" />
-            <button onClick={this.accessLogIn} className="modal-btn">Submit</button>
+            <input className="modal-input" type="password" placeholder="Enter Password"
+                    id="loginpass" value={this.state.password}
+                    onChange={(e) => this.setState({ password: e.target.value })} />  
+
+            <button onClick={() => this.accessLogIn()} className="modal-btn">Submit</button>
           </div>
         </div>    
       </div>
@@ -31,5 +56,12 @@ class LogIn extends Component {
   }
 }
 
-export default LogIn;
+function mapStateToProps(state) {
+  return { user: state.user }
+}
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ loginUser }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

@@ -1,24 +1,14 @@
 import axios from 'axios';
 
-export const FETCH_USER = 'FETCH_USER';
 export const CREATE_USER = 'CREATE_USER';
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT = 'LOGOUT';
+
+export const FETCH_USER = 'FETCH_USER';
 export const FETCH_PUZZLE = 'FETCH_PUZZLE';
 export const CREATE_PUZZLE = 'CREATE_PUZZLE';
 
-// const ROOT_URL = "http://reduxblog.herokuapp.com/api";
-// const API_KEY = "?key=hogu1234";
-
-export function fetchUser(data) {
-  const request = axios.get('/user/', data);
-  return {
-    type: FETCH_USER,
-    payload: request
-  }
-} 
-
 export function createUser(user) {
-  // const request = axios.post('/user/signin', user);
-  console.log("user to save:", user)
   const request = fetch('/user/signin/', {
     method: "post",
     headers: {
@@ -32,17 +22,54 @@ export function createUser(user) {
       return res.json()
     })
     .then(user => { 
-      console.log('user saved:',user); 
       return user;
     })
   return {
     type: CREATE_USER,
     payload: request
   }
-  
 }
 
-  export function fetchPuzzle(data) {
+export function loginUser(user) {
+  const request = fetch('/user/login/', {
+    method: "post",
+    headers: {
+      "Access-Control-Allow-Origin": 'http://localhost:3000',
+      "Access-Control-Allow-Credentials": 'true',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },      
+    body: JSON.stringify(user)    
+  })
+    .then(res => {
+      return res.json()
+    })
+    .then(user => { 
+      return user;
+    })
+  return {
+    type: LOGIN_USER,
+    payload: request
+  }
+}
+
+export function logoutUser() {
+  return {
+    type: LOGOUT,
+    payload: null
+  }
+}
+
+// ----------------------------------
+export function fetchUser(data) {
+  const request = axios.get('/user/', data);
+  return {
+    type: FETCH_USER,
+    payload: request
+  }
+} 
+
+export function fetchPuzzle(data) {
   const request = axios.get('/puzzle/', data);
   return {
     type: FETCH_PUZZLE,

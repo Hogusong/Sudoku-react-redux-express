@@ -13,10 +13,18 @@ router.get('/', function(req, res, next) {
 
 /* Log in a user. */
 router.post('/login', function(req, res, next) {
-  console.log('I am login', req.method);
-  db.users.find({ firstname : req.body.name }, function(err, docs){
-    if( err || docs.length < 1 ) res.json("No username found.") ;
-    else res.json(docs)
+  console.log('I am login', req.body);
+  const user = req.body;
+  db.users.find({ username: user.username, password: user.password }, function(err, docs){
+    if( err || docs.length < 1 ) {
+      const email = user.username
+      db.users.find({ email: user.username, password: user.password }, function(err, docs){
+        if ( err || docs.length < 1 ) res.json(null) ;
+        res.json(docs[0])
+      })
+    } else { 
+      res.json(docs[0])
+    }
   })
 });
 
@@ -31,16 +39,15 @@ router.post('/signin', function(req, res, next) {
         password: req.body.password,
         saved: {}, solved: {},  upload: {}, since: null
       }, function(err, saved) {
-        if(err || !saved) res.json("Failure. Try again.");
+        if(err || !saved) res.json(null);
         else {
           db.users.find({ username : req.body.username }, function(err, docs){
-            console.log("saved:", docs);
-            res.json(docs);        
+            res.json(docs[0]);        
           })
         }
       })
     } else {
-      res.json("User already exist.");
+      res.json(null);
     }
   })
 });

@@ -7,7 +7,7 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '', email: '', password: '', confirm: '',  result: ''
+      username: '', email: '', password: '', confirm: ''
     }
     this.accessSignIn = this.accessSignIn.bind(this);
   }
@@ -21,20 +21,19 @@ class SignIn extends Component {
     const email = this.state.email.trim();
     const password = this.state.password.trim();
     const confirm = this.state.confirm.trim();
+    this.setState({ username, email, password, confirm })
+
     if (username.length < 4) return alert("Username is not valid.");
     if (email.indexOf('@') < 3) return alert("Email address is not valid.");
     if (password.length < 6) return alert("Password is not valid.") ;
     if (password !== confirm) return alert("Password and Confirm are not matched.");
 
     this.props.createUser({ username, email, password });
-
-    this.setState({ username, email, password, confirm, result: 'pass' })
-    document.getElementById('modal-start').style.display='none';
   }
 
   componentDidUpdate() {
-    if (this.state.result === "pass") {
-      this.setState({ username:'', email:'', password:'', confirm:'', result: '' })
+    if (this.props.user) {
+      document.getElementById('modal-start').style.display='none';    
     }
   }
 
@@ -50,7 +49,7 @@ class SignIn extends Component {
           <div className="modal-info">
             <label className="modal-label">User Name</label>
             <input className="modal-input" type="text" placeholder="Enter username( 4 and more )" id="username"
-                    value={this.state.username} autoFocus={true}
+                    value={this.state.username}
                     onChange={(e) => this.setState({ username: e.target.value })} />
 
             <label className="modal-label">Email</label>
@@ -75,9 +74,13 @@ class SignIn extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return { user: state.user };
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ createUser}, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
 
