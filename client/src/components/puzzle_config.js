@@ -3,9 +3,13 @@ import React, { Component } from 'react';
 class Options extends Component {
   render() {
     return (
-      <div>Puzzle Options</div>
-    )
+      <div className="main-body">
+        Puzzle Configulation
+      </div>
+    );
   }
 }
 
 export default Options;
+
+

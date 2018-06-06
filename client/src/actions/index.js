@@ -16,16 +16,33 @@ export function fetchUser(data) {
   }
 } 
 
-export function createUser(user, callback) {
-  const request = axios.post('/user/', user)
-    .then(()=> callback());
+export function createUser(user) {
+  // const request = axios.post('/user/signin', user);
+  console.log("user to save:", user)
+  const request = fetch('/user/signin/', {
+    method: "post",
+    headers: {
+      "Access-Control-Allow-Origin": 'http://localhost:3000',
+      "Access-Control-Allow-Credentials": 'true',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },      
+    body: JSON.stringify(user)
+  }).then(res => {
+      return res.json()
+    })
+    .then(user => { 
+      console.log('user saved:',user); 
+      return user;
+    })
   return {
     type: CREATE_USER,
     payload: request
   }
+  
 }
 
-export function fetchPuzzle(data) {
+  export function fetchPuzzle(data) {
   const request = axios.get('/puzzle/', data);
   return {
     type: FETCH_PUZZLE,

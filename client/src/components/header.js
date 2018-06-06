@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import logo from '../img/logo.svg';
 import SignIn from '../containers/signin';
 import LogIn from '../containers/login';
@@ -14,8 +16,9 @@ class Header extends Component {
   }
 
   render() {
-    const loginUser = ""
-    const logger = (!loginUser) ? 
+    const user = this.props.user;
+    console.log("log in user:", user)
+    const logger = (user.length < 1 ) ? 
       <p>
         <a onClick={this.openLogIn}>Log in</a> / 
         <a onClick={this.openSignIn}>Sign in</a>
@@ -37,5 +40,10 @@ class Header extends Component {
   }
 }
 
-export default Header;
+function mapStateToProps(state) {
+  return { user: state.user }
+}
+
+export default connect(mapStateToProps)(Header);
+
 
