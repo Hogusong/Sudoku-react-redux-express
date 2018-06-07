@@ -9,6 +9,11 @@ import LogIn from '../containers/login';
 import '../css/header.css';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
+  }
+  
   openSignIn() {
     document.getElementById('modal-start').style.display='block';
   }
@@ -23,7 +28,6 @@ class Header extends Component {
 
   render() {
     const user = this.props.user;
-    console.log("Log in info:", user)
     const logger = (!user) ? 
       <p>
         <a onClick={this.openLogIn}>Log in</a> / 

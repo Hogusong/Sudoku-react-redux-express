@@ -1,7 +1,6 @@
 import { CREATE_USER, LOGIN_USER, LOGOUT } from '../actions';
 
 export default function(state=null, action) {
-  console.log("in user_reducer:", action)
   switch (action.type) {
     case CREATE_USER:
       return action.payload;

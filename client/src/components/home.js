@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Introduction from './introduction';
 import '../css/home.css';
 
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.state = { }
     this.background = this.background.bind(this);
+    this.startPuzzle = this.startPuzzle.bind(this);
+    this.updateState = this.updateState.bind(this);
   }
 
   background(x,y,z) {
@@ -39,6 +44,22 @@ class Home extends Component {
     }
     return grids;
   }
+
+  startPuzzle() {
+    console.log('Enjoy the puzzle', this.state)
+  }
+
+  updateState() {
+    console.log('render', this.props.user);
+    const config = this.props.user.config
+    this.setState({ size: config.size,
+                    level: config.level,
+                    choice: config.choice,
+                    puzzle_no: config.puzzle_no,
+                    hint: config.hint,
+                    time_count: config.time_count })
+  }
+
   render() {
     return (
       <div className="main-home-body">
@@ -61,35 +82,54 @@ class Home extends Component {
           <div className="puzzle-config">
             <div className="board-size">
               <h3>Board Size</h3>
-              <div>
-                <p>4 x 4</p>
-                <p>6 x 6</p>
-                <p>9 x 9</p>
+              <div className="size-select">
+                <input type='radio' id='size4' name="board-size" 
+                  value="4x4" />
+                <label>4 x 4</label>
+                <input type='radio' id='size6' name="board-size" 
+                  value="6x6" />
+                <label>6 x 6</label>
+                <input type='radio' id='size9' name="board-size" 
+                  value="9x9" />
+                <label>9 x 9</label>
               </div>
             </div>
             <div className="game-level">
               <h3>Game Level</h3>
-              <div>
-                <p>Easy</p>
-                <p>Medium</p>
-                <p>Advenced</p>
-                <p>Hard</p>
+              <div className="level-select">
+                <input type="radio" id="easy" name="level" value="Easy" />
+                <label>Easy</label>
+                <input type="radio" id="medium" name="level" value="Medium" />
+                <label>Medium</label>
+                <input type="radio" id="advenced" name="level" value="Advenced" />
+                <label>Advenced</label>
+                <input type="radio" id="hard" name="level" value="Hard" />
+                <label>Hard</label>
               </div>
             </div>
             <div className="puzzle-id">
-              <h3>Puzzle options</h3>
-              <div>
-                <p>Random</p>
-                <p>Choose puzzle</p>
-                <label>Enter number : <input type="number"/></label>
+              <h3>Puzzle Selection</h3>
+              <div className="puzzle-select">
+                <input type="radio" id="random" name="no-option" />
+                <label>Random</label>
+                <input type="radio" id="chose" name="no-option" />
+                <label>Choose</label>
               </div>
+              <input type="number" id="number" min="1" placeholder="Enter number" />
             </div>
             <div className="others">
               <h3>Other options</h3>
-              <label>How many hint(s) : <input type="number"/></label>
-              <p>Time count : Yes  or  No</p>
+              <label>How many hint(s) : <input type="number" min="0" /></label>
+              <div className="time-count">
+                <p>Time count :
+                  <input type="radio" id="yes" name="time" />
+                  <label>Yes</label>
+                  <input type="radio" id="no" name="time" />
+                  <label>No</label>
+                </p>
+              </div>
             </div>
-            <button id="start-game">Start Game</button>
+            <button onClick={()=>this.startPuzzle()} id="start-game">Start Game</button>
           </div>
         </div>
       </div>
@@ -97,4 +137,9 @@ class Home extends Component {
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  return { user: state.user }
+}
+
+export default connect(mapStateToProps)(Home);
+

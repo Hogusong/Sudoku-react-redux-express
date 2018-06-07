@@ -13,35 +13,46 @@ router.get('/', function(req, res, next) {
 
 /* Log in a user. */
 router.post('/login', function(req, res, next) {
-  console.log('I am login', req.body);
-  const user = req.body;
-  db.users.find({ username: user.username, password: user.password }, function(err, docs){
-    if( err || docs.length < 1 ) {
-      const email = user.username
-      db.users.find({ email: user.username, password: user.password }, function(err, docs){
-        if ( err || docs.length < 1 ) res.json(null) ;
+  const search = req.body.username;
+  if (search.indexOf("@") < 0) {
+    db.users.find({ username: search, password: req.body.password }, function(err, docs){
+      if( err || docs.length < 1 ) {
+         res.json(null) 
+      } else {
+        docs[0].password = '0000'
         res.json(docs[0])
-      })
-    } else { 
-      res.json(docs[0])
-    }
-  })
+      }
+    })
+  } else { 
+    db.users.find({ email: search, password: req.body.password }, function(err, docs){
+      if( err || docs.length < 1 ) {
+        res.json(null) 
+      } else {
+        docs[0].password = '0000'
+        res.json(docs[0])
+      }
+    })
+  }
 });
 
 /* Sign in a user. */
 router.post('/signin', function(req, res, next) {
-  console.log('Sign in: ', req.body.username);
   db.users.find({ username : req.body.username }, function(err, docs){
     if( !err && docs.length < 1 ) {
       db.users.save({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
+        config : {
+          size: '9x9',  level: 'Medium',  choice: 'Random',  puzzle_no: 0, 
+          hint: 0,   time_count: 'Yes'
+        },
         saved: {}, solved: {},  upload: {}, since: null
       }, function(err, saved) {
         if(err || !saved) res.json(null);
         else {
           db.users.find({ username : req.body.username }, function(err, docs){
+            docs[0].password = '0000'
             res.json(docs[0]);        
           })
         }

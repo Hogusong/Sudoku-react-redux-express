@@ -1,10 +1,7 @@
-import axios from 'axios';
-
 export const CREATE_USER = 'CREATE_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT = 'LOGOUT';
 
-export const FETCH_USER = 'FETCH_USER';
 export const FETCH_PUZZLE = 'FETCH_PUZZLE';
 export const CREATE_PUZZLE = 'CREATE_PUZZLE';
 
@@ -60,7 +57,7 @@ export function logoutUser() {
   }
 }
 
-// ----------------------------------
+/*/ ----------------------------------
 export function fetchUser(data) {
   const request = axios.get('/user/', data);
   return {
@@ -85,3 +82,4 @@ export function createPuzzle(puzzle, callback) {
     payload: request
   }
 }
+*/
