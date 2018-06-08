@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import { loginUser } from '../actions';
 
 class LogIn extends Component {
@@ -25,6 +26,9 @@ class LogIn extends Component {
   componentDidUpdate() {
     if(this.props.user) {
       document.getElementById('modal-login').style.display='none';
+      document.getElementById('logger').style.display='none';
+      document.getElementById('logout').style.display='block'
+      // window.location.href = '/options';
     }
   }
 

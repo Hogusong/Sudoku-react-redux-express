@@ -56,30 +56,3 @@ export function logoutUser() {
     payload: null
   }
 }
-
-/*/ ----------------------------------
-export function fetchUser(data) {
-  const request = axios.get('/user/', data);
-  return {
-    type: FETCH_USER,
-    payload: request
-  }
-} 
-
-export function fetchPuzzle(data) {
-  const request = axios.get('/puzzle/', data);
-  return {
-    type: FETCH_PUZZLE,
-    payload: request
-  }
-} 
-
-export function createPuzzle(puzzle, callback) {
-  const request = axios.post('/puzzle/', puzzle)
-    .then(()=> callback());
-  return {
-    type: CREATE_PUZZLE,
-    payload: request
-  }
-}
-*/

@@ -34,6 +34,8 @@ class SignIn extends Component {
   componentDidUpdate() {
     if (this.props.user) {
       document.getElementById('modal-start').style.display='none';    
+      document.getElementById('logger').style.display='none';
+      document.getElementById('logout').style.display='block'
     }
   }
 

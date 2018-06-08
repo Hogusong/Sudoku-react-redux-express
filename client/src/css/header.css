@@ -1,3 +1,14 @@
+#logger {
+  display: block;
+  float: right;
+  padding: 0 20px;
+}
+
+#logout {
+  display: none;
+  float: right;
+  padding: 0 20px;
+}
 
 .modal {
   z-index: 3;

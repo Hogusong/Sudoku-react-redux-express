@@ -123,7 +123,7 @@
 
 .game-level {  height: 110px;  }
 
-.puzzle-id {  height: 90px;  }
+.puzzle-id {  height: 70px;  }
 
 .others {  height: 70px;  }
 
@@ -179,12 +179,6 @@
   margin-top: 10px;
   width: 100px;
   height: 40px;
-}
-
-.puzzle-id #number {
-  margin-left: 70px;
-  padding: 2px 10px;
-  width: 100px;
 }
 
 .others label {
