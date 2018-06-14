@@ -13,7 +13,7 @@ class SignIn extends Component {
   }
 
   closeSignIn() {
-    document.getElementById('modal-start').style.display='none';
+    document.getElementById('modal-signin').style.display='none';
   }
 
   accessSignIn() {
@@ -33,15 +33,13 @@ class SignIn extends Component {
 
   componentDidUpdate() {
     if (this.props.user) {
-      document.getElementById('modal-start').style.display='none';    
-      document.getElementById('logger').style.display='none';
-      document.getElementById('logout').style.display='block'
+      document.getElementById('modal-signin').style.display='none';    
     }
   }
 
   render() {
     return (
-      <div id="modal-start" className="modal">
+      <div id="modal-signin" className="modal">
         <div className="modal-content">
           <div className="modal-header">
             <span onClick={this.closeSignIn}>

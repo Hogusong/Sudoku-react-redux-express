@@ -6,10 +6,11 @@ import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
 
 // import registerServiceWorker from './registerServiceWorker';
-import Header from './components/header';
-import Home from './components/home';
-import Puzzle from './components/puzzle';
-import './css/style.css';
+import Home from './containers/home';
+import PuzzleNew from './containers/puzzle-new';
+import PuzzleSaved from './containers/puzzle-saved';
+import Upload from './containers/upload';
+import './css/index.css';
 
 import reducers from './reducers';
 
@@ -19,10 +20,11 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <div>
-        <Header />
-        <div className="main-body">
+        <div>
           <Route exact path='/' component={Home} />
-          <Route path='/puzzle' component={Puzzle} />
+          <Route path='/puzzle/new' component={PuzzleNew} />
+          <Route path='/puzzle/saved' component={PuzzleSaved} />
+          <Route path='/upload' component={Upload} />
         </div>
         <footer>
           <span>G</span>od<span>B</span>less<span>U</span> Web Services &copy; 2018

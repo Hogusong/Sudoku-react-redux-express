@@ -1,11 +1,12 @@
-.main-home-body {
+
+.home-body {
   display: grid;
   grid-template-columns: 1fr 3fr;
   overflow: hidden;
   height: 80vh;
 }
 
-.introduction {
+/* .introduction {
   float: left;
   padding: 0;
   margin-left: 40px;
@@ -14,12 +15,13 @@
 
 .introduction h2{
   margin-top: 80px;
+  color: orchid;
 }
 
 .introduction p {
   margin-top: 20px;
   font-size: 16px;
-}
+} */
 
 .home-main {
   display: grid;
@@ -28,206 +30,82 @@
   overflow-y: hidden;
 }
 
-.home-game {
-  display: grid;
-  margin-left: 4vw;
-  padding-left: 4vw;
-  grid-template-areas: 
-      'four six'
-      'nine nine';
-  width: 480px;
+.modal {
+  z-index: 3;
+  display: none;
+  position:fixed;
+  left:0;
+  top:105px;
+  width:100%;
+  height:100%;
+  overflow:auto;
+  background-color:rgba(0,0,0,0.4);
 }
 
-.puzzle-grid-four {
-  display: grid;
-  padding: 0;
-  margin-top: 60px;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 0;
-  width: 148px;
-  height: 148px;
-  grid-area: four;
-}
-
-.puzzle-grid-four input {
-  margin: 0;
-  padding: 5px;
-  width: 37px;
-  height: 37px;
-  font-size: 28px;
-  text-align: center;
-  border: 1px gray solid;
-  border-radius: 2px;
-}
-
-.puzzle-grid-six {
-  display: grid;
-  padding: 0;
-  margin-top: 60px;
-  grid-template-columns: repeat(6, 1fr);
-  grid-gap: 0;
-  width: 150px;
-  height: 150px;
-  grid-area: six;
-}
-
-.puzzle-grid-six input {
-  margin: 0;
-  padding: 5px;
-  width: 25px;
-  height: 25px;
-  font-size: 20px;
-  text-align: center;
-  border: 1px gray solid;
-  border-radius: 2px;
-}
-
-.puzzle-grid-nine{
-  display: grid;
-  padding: 0;
-  margin-top: -50px;
-  grid-template-columns: repeat(9, 1fr);
-  grid-gap: 0;
-  width: 284px;
-  height: 284px;
-  grid-area: nine;
-}
-
-.puzzle-grid-nine input {
-  margin: 0;
-  padding: 5px;
-  width: 32px;
-  height: 32px;
-  font-size: 20px;
-  text-align: center;
-  border: 1px gray solid;
-  border-radius: 3px;
-}
-
-.puzzle-config {
-  display: grid;
-  padding: 100px 0px 40px 5vw;
-  grid-template: repeat(8,1fr);
-  width: 240px;
-}
-
-.board-size, .game-level, .puzzle-id, .others {
-  font-size: 14px;
+.modal-content {
+  margin: auto;
+  margin-top: 125px;
+  padding-top: 15px; 
   background: white;
-  padding: 10px;
-  border: 1px black solid;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  outline: 0;
+  width: 450px;
 }
 
-.board-size {  height: 85px;  }
+.modal-header {
+  min-height: 30px;
+  padding: 10px 20px;
+  margin: 20px 20px;
+  font-size: 20px;
+  background: wheat;  
+  color: black;
+}
 
-.game-level {  height: 110px;  }
+.modal-header span {  float: right;  }
 
-.puzzle-id {  height: 70px;  }
+.modal-header h3 {   float: left;  }
 
-.others {  height: 70px;  }
-
-.puzzle-config p {
-  margin-left: 100px;
+.modal-label {
+  display: block;
+  margin-left: 38px;
   margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.puzzle-config h3 {  margin-bottom: 6px!important; }
-
-.puzzle-config #start-game {
-  width: 120px;
-  height: 30px;
-  margin-left: 63px;
-  font-size: 14px;
-  border-radius: 6px;
+.modal-input {
+  padding: 5px 10px;
+  font-size: 15px;
+  margin-left: 28px;
+  margin-bottom: 15px;
+  width: 370px;
 }
 
-.others p {
-  margin-top: 5px;
-  margin-left: 25px;
+.modal-input:hover {
+  background: lemonchiffon;
 }
 
-.size-select {
-  margin-left: 70px;
-  width: 80px;
-}
-
-.size-select input {
-  margin-bottom: 6px;
-}
-.size-select label {
-  margin-left: 30px;
-}
-
-.level-select {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-left: 70px;
-  margin-top: 10px;
+.modal-btn {
+  padding: 8px;
+  font-size: 20px;
+  margin: 10px 25px 30px 30px!important;
   width: 100px;
-  height: 80px;
+  background: wheat;
+  color: black;
+  border-radius: 8px;
 }
 
-.level-select label {
-  margin-left: 30px;
+.modal-btn:hover {
+  background: black;
 }
 
-.puzzle-select {
-  display: grid;
-  grid-template-columns: 1fr 1fr; 
-  margin-left: 70px;
-  margin-top: 10px;
-  width: 100px;
-  height: 40px;
-}
-
-.others label {
-  margin-left: 20px;
-}
-
-.others input {
-  width: 50px;
-  padding: 2px 10px;
-}
-
-.time-count {
-  padding: 0;
-}
-
-.time-count p {
-  margin: 8px 0 0 20px;
-}
-
-.time-count input {
-  margin-left: 10px;
-}
-
-.time-count label {
-  margin-left: -22px;
-}
-
-.puzzle-id input:hover {
-  background: lemonchiffon
-}
-
-.others input:hover {
-  background: lemonchiffon
-}
-
-@media(max-width: 800px) {
+@media(max-width: 960px) {
   .introduction {
     display: none;
   }
 
-  .main-home-body {
+  .home-body {
     grid-template-columns: 1fr;
   }  
-
-  .home-game {
-    margin-left: 7vw;
-  }
-
-  .puzzle-config {
-    margin-left: 0;
-  }
 }
+

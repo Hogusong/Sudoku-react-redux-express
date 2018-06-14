@@ -1,9 +1,9 @@
-import { FETCH_PUZZLE} from '../actions'
+import { UPLOAD_PUZZLE} from '../actions'
 
 export default function(state=[], action) {
   switch (action.type) {
-    case FETCH_PUZZLE:
-      return action.puzzle;
+    case UPLOAD_PUZZLE:
+      return action.payload;
     default:
       return state;
   }

@@ -3,14 +3,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { configUser } from '../actions';
-import '../css/config.css';
 
 class PuzzleConfig extends Component {
   constructor(props) {
     super(props);
-    this.state = { size: '',  level: '',    choice: '',   
-                  time_count: '',      hint:''  }
+    this.state = { changed: false,  }
     this.saveConfig = this.saveConfig.bind(this);
+    this.backToGameOption = this.backToGameOption.bind(this);
+  }
+
+  backToGameOption() {
+    document.getElementById('menu-game').style.display='grid';
+    document.getElementById('config-puzzle').style.display='none';    
   }
 
   saveConfig() {
@@ -23,6 +27,7 @@ class PuzzleConfig extends Component {
         hint: this.state.hint      
       }
       console.log('saved ...', config);
+      this.setState({ changed: true })
       this.props.configUser(this.props.user.username, config)
     }
   }
@@ -65,11 +70,17 @@ class PuzzleConfig extends Component {
     console.log(config);
   }
 
+  componentDidUpdate() {
+    if (this.state.changed) {
+      this.backToGameOption()
+    }
+  }
+
   render() {
-    console.log('render config', this.props.user, this.state);
+    console.log('change config', this.props.user, this.state);
     return (
-      <div className="puzzle-config">
-        <h3 style={{color: 'orchid'}}>Set Game Config :</h3>
+      <div id="config-puzzle" className="config-puzzle">
+        <h3 style={{color: 'orchid'}}>Set Game Config</h3>
         <div className="board-size">
           <h3>Board Size</h3>
           <div className="size-select">
@@ -129,8 +140,12 @@ class PuzzleConfig extends Component {
             </p>
           </div>
         </div>
-        <button onClick={()=> this.saveConfig()}
-              id="submit-btn">Save Config</button>
+        <div className="config-btns">
+          <button onClick={()=> this.saveConfig()}
+              id="save-return">Save & Return</button>
+          <button onClick={()=> this.backToGameOption()}
+              id='cancel'>Cancel</button>
+        </div>
       </div>
     )
   }

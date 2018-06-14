@@ -17,7 +17,7 @@ router.post('/login', function(req, res, next) {
   if (search.indexOf("@") < 0) {
     db.users.find({ username: search, password: req.body.password }, function(err, docs){
       if( err || docs.length < 1 ) {
-         res.json(null) 
+        res.json(null) 
       } else {
         docs[0].password = '0000'
         res.json(docs[0])
@@ -37,6 +37,7 @@ router.post('/login', function(req, res, next) {
 
 /* Sign in a user. */
 router.post('/signin', function(req, res, next) {
+  console.log('in server to sign in')
   db.users.find({ username : req.body.username }, function(err, docs){
     if( !err && docs.length < 1 ) {
       db.users.save({
@@ -44,10 +45,10 @@ router.post('/signin', function(req, res, next) {
         email: req.body.email,
         password: req.body.password,
         config : {
-          size: '9x9',  level: 'Medium',  choice: 'Random',  puzzle_no: 0, 
-          hint: 0,   time_count: 'Yes'
+          size: '',  level: '',  choice: '',
+          hint: 0,   time_count: ''
         },
-        saved: {}, solved: {},  upload: {}, since: null
+        saved: [], solved: [],  upload: [], since: null
       }, function(err, saved) {
         if(err || !saved) res.json(null);
         else {
@@ -63,7 +64,65 @@ router.post('/signin', function(req, res, next) {
   })
 });
 
-/* Update user's info. */
+/* Setup user's config. */
+router.post('/setup', function(req, res, next) {
+  const { username, config } = req.body;
+  config.hint = parseInt(config.hint);
+  db.users.update({ username: username }, {$set: { config: config }})
+  db.users.find({ username: username }, function(err, docs) {
+    if (err || docs.length < 1) {
+      res.json(null);
+    } else {
+      docs[0].password = '0000'
+      res.json(docs[0])  
+    }
+  })
+})
+ 
+// Create Databases 
+router.post('/create', function(req, res, next) {
+  console.log(req.body)
+  db.users.find(function(err, docs) {
+    if (docs.length < 1) {
+      db.users.save({
+        username: 'admin',
+        email: 'hogusong1@yahoo.com',
+        password: 'narae1125',
+        config : {
+          size: '',  level: '',  choice: '',
+          hint: 0,   time_count: ''
+        },
+        saved: [], solved: [],  upload: [], since: null
+      }, function(err, saved) {
+        if(err || !saved) console.log('fali to create UserDB')
+        else console.log('UserDB is created')
+      })
+    } else {
+      console.log("Admin is there already.")
+    }
+  })
+
+  db.puzzleGroup.find(function(err, docs) {
+    if (docs.length < 1) {
+      db.puzzleGroup.save({ 
+        easy_4x4: [],  medium_4x4: [],  hard_4x4: [],  expert_4x4: [],
+        easy_6x6: [],  medium_6x6: [],  hard_6x6: [],  expert_6x6: [], 
+        easy_9x9: [],  medium_9x9: [],  hard_9x9: [],  expert_9x9: [] 
+      }, function(err, saved) {
+        if(err || !saved) console.log('fali to create PuzzlegrpupDB')
+        else console.log('PuzzleGrpupDB is created')
+      })    
+    } else {
+      console.log('Group is created already.')
+    }
+  })
+  res.json('Done')
+});
+
+
+
+/* 
+//Update user's info.
 router.post('/update', function(req, res, next) {
   const olduser = req.body[0];
   const newuser = req.body[1];
@@ -118,5 +177,5 @@ function isEmailTaken(email) {
     return null;
   })
 }
-
+*/
 module.exports = router;

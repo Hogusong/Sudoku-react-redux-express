@@ -1,0 +1,76 @@
+.puzzle-grids {
+  display: grid;
+  margin-left: 4vw;
+  padding-left: 4vw;
+  grid-template-areas: 
+      'four six'
+      'nine nine';
+  width: 480px;
+}
+
+.small-grid-4 {
+  display: grid;
+  padding: 0;
+  margin-top: 60px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0;
+  width: 148px;
+  height: 148px;
+  grid-area: four;
+}
+
+.small-grid-4 input {
+  margin: 0;
+  padding: 5px;
+  width: 37px;
+  height: 37px;
+  font-size: 28px;
+  text-align: center;
+  border: 1px gray solid;
+  border-radius: 2px;
+}
+
+.small-grid-6 {
+  display: grid;
+  padding: 0;
+  margin-top: 60px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 0;
+  width: 150px;
+  height: 150px;
+  grid-area: six;
+}
+
+.small-grid-6 input {
+  margin: 0;
+  padding: 5px;
+  width: 25px;
+  height: 25px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px gray solid;
+  border-radius: 2px;
+}
+
+.small-grid-9 {
+  display: grid;
+  padding: 0;
+  margin-top: -50px;
+  grid-template-columns: repeat(9, 1fr);
+  grid-gap: 0;
+  width: 284px;
+  height: 284px;
+  grid-area: nine;
+}
+
+.small-grid-9 input {
+  margin: 0;
+  padding: 5px;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px gray solid;
+  border-radius: 3px;
+}
+

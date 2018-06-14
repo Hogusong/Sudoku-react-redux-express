@@ -16,7 +16,7 @@ class LogIn extends Component {
   closeLogIn() {
     document.getElementById('modal-login').style.display='none';
   }
-
+ 
   accessLogIn() {
     const username = this.state.username.trim();
     const password = this.state.password.trim();
@@ -26,9 +26,6 @@ class LogIn extends Component {
   componentDidUpdate() {
     if(this.props.user) {
       document.getElementById('modal-login').style.display='none';
-      document.getElementById('logger').style.display='none';
-      document.getElementById('logout').style.display='block'
-      // window.location.href = '/options';
     }
   }
 
