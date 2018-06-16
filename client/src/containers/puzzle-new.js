@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import '../css/puzzle-new.css';
-import { BackGround } from '../global';
+import { BackGround } from '../Global';
 import AppHeader from '../components/app-header';
 import Introduction from '../components/introduction';
 

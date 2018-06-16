@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { configUpload, uploadPuzzle } from '../actions';
-import { BackGround, P4x4, P6x6, P9x9, IsValidInput } from '../global';
+import { BackGround, PUZZLE, IsValidInput, GetSolution } from '../Global';
 
 import '../css/upload.css';
 import AppHeader from '../components/app-header';
@@ -20,11 +20,20 @@ class Upload extends Component {
   }
 
   uploadPuzzle() {
-    const username = this.props.user.username;
-    console.log('username :', username)
-    const type = this.state.level + '_' + this.state.size;
-    this.props.uploadPuzzle(username, type, this.state.puzzle);
-    this.setState({ uploading: false })
+    const solution = GetSolution(this.state.puzzle);
+    if (solution) {
+      console.log(solution);
+      const username = this.props.user.username;
+      const type = this.state.level + '_' + this.state.size;
+      this.props.uploadPuzzle(username, type, this.state.puzzle);
+      const puzzle =  (this.state.size==='4x4') ? PUZZLE(4) :
+                      (this.state.size==='6x6') ? PUZZLE(6) : PUZZLE(9) ;
+      this.setState({ puzzle: puzzle,
+                      uploading: !this.state.uploading })
+    } else {
+      alert("Failed uploading because this puzzle is not valid.")
+    }
+
   }
 
   saveConfig() {
@@ -34,11 +43,10 @@ class Upload extends Component {
         level: this.state.level
       }
       this.props.configUpload(config)
-      const puzzle =  (this.state.size==='4x4') ? P4x4 :
-                      (this.state.size==='6x6') ? P6x6 : P9x9 ;
+      const puzzle =  (this.state.size==='4x4') ? PUZZLE(4) :
+                      (this.state.size==='6x6') ? PUZZLE(6) : PUZZLE(9) ;
       this.setState({ puzzle: puzzle,
                       uploading: !this.state.uploading })
-      console.log(config)
     } 
   }
 
@@ -57,13 +65,16 @@ class Upload extends Component {
     this.props.configUpload(null)
   }
 
+  componentDidUpdate() {
+     console.log('updated', this.state.puzzle)
+  }
+
   handleChange(e, i, j) {
     const puzzle = this.state.puzzle;
     if (IsValidInput(e.target.value, puzzle.length)) {
       puzzle[i][j] = e.target.value;
       this.setState({ puzzle: puzzle });
     }
-
   }
 
   renderGrid() {

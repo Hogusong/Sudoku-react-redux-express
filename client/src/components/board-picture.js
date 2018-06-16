@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BackGround } from '../global';
+import { BackGround } from '../Global';
 import '../css/board-picture.css';
 
 class BoardPicture extends Component {
