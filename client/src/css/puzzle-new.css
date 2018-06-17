@@ -6,23 +6,6 @@
   height: 80vh;
 }
 
-/* .introduction {
-  float: left;
-  padding: 0;
-  margin-left: 40px;
-  text-align: left;
-}
-
-.introduction h2 {
-  margin-top: 80px;
-  color: orchid;
-}
-
-.introduction p {
-  margin-top: 20px;
-  font-size: 16px;
-} */
-
 .puzzle-main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -44,6 +27,7 @@
 
 #detail p {
   color: blue;
+  margin-left: -10px!important;
 }
 
 #grid-4, #grid-6, #grid-9 {

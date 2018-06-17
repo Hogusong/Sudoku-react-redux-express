@@ -6,14 +6,11 @@ import Header from '../components/header';
 import Introduction from '../components/introduction';
 import BoardPicture from '../components/board-picture';
 import DemoConfig from '../components/demo-config';
-import PuzzleConfig from './puzzle-config';
 import GameOptions from './game-options';
 
 class Home extends Component {
   render() {
-    console.log('Home :', this.props.user)
-    const renderDOM = (!this.props.user) ?  <DemoConfig /> :
-            (!this.props.user.config.size) ? <PuzzleConfig /> : <GameOptions />;
+    const renderDOM = (!this.props.user) ?  <DemoConfig /> : <GameOptions />;
     return (
       <div>
         <Header />

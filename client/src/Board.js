@@ -1,4 +1,6 @@
-export default var Board = function (puzzle, size) {
+import { PUZZLE } from './Global';
+
+const Board = function (puzzle, size) {
   // this.playPuzzle = PUZZLE(size);
   this.solvedPuzzle = PUZZLE(size);
   // this.occupied = PUZZLE(size);
@@ -141,6 +143,13 @@ function checkSubsqare(r, c, value, puzzle) {
     }
     return false;
   } else {
+    const x = Math.floor(r/2);
+    const y = Math.floor(c/3);
+    for (let i=x*2; i<x*2+2; i++) {
+      for (let j=y*3; j<y*3+3; j++) {
+        if ((i !== r && j !== c) && puzzle[i][j] === String(value)) return true;
+      }
+    }
     return false
   }
 }
@@ -154,3 +163,6 @@ function checkBoard(puzzle) {
   }
   return true;
 }
+
+export default Board;
+

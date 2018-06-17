@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { configUpload, uploadPuzzle } from '../actions';
-import { BackGround, PUZZLE, IsValidInput, GetSolution } from '../Global';
+import { uploadPuzzle } from '../actions';
+import { BackGround, PUZZLE, IsValidInput, IsEmpty, GetSolution } from '../Global';
 
 import '../css/upload.css';
 import AppHeader from '../components/app-header';
@@ -15,34 +15,31 @@ class Upload extends Component {
     this.state = {  size: '',    puzzle: null,  
                     level: '',   uploading: false  }
     this.saveConfig = this.saveConfig.bind(this);
-    this.uploadPuzzle = this.uploadPuzzle.bind(this);
+    this.savePuzzle = this.savePuzzle.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  uploadPuzzle() {
-    const solution = GetSolution(this.state.puzzle);
-    if (solution) {
-      console.log(solution);
-      const username = this.props.user.username;
-      const type = this.state.level + '_' + this.state.size;
-      this.props.uploadPuzzle(username, type, this.state.puzzle);
-      const puzzle =  (this.state.size==='4x4') ? PUZZLE(4) :
-                      (this.state.size==='6x6') ? PUZZLE(6) : PUZZLE(9) ;
-      this.setState({ puzzle: puzzle,
-                      uploading: !this.state.uploading })
+  savePuzzle() {
+    if (!this.state.uploading) return alert('Save config first');
+    if (!IsEmpty(this.state.puzzle)) {
+      const solution = GetSolution(this.state.puzzle);
+      if (solution) {
+        const username = this.props.user.username;
+        const type = this.state.level + '_' + this.state.size;
+        this.props.uploadPuzzle(username, type, this.state.puzzle);
+        const puzzle =  (this.state.size==='4x4') ? PUZZLE(4) :
+                        (this.state.size==='6x6') ? PUZZLE(6) : PUZZLE(9) ;
+        this.setState({ puzzle: puzzle,   uploading: false })
+      } else {
+        alert("Failed uploading because this puzzle is not valid.")
+      }
     } else {
-      alert("Failed uploading because this puzzle is not valid.")
+      alert('Board is empty. Input your puzzle to upload.')
     }
-
   }
 
   saveConfig() {
-    if (this.allChecked() && !this.state.uploading) {
-      const config = {
-        size: this.state.size,
-        level: this.state.level
-      }
-      this.props.configUpload(config)
+    if (this.allChecked() && IsEmpty(this.state.puzzle)) {
       const puzzle =  (this.state.size==='4x4') ? PUZZLE(4) :
                       (this.state.size==='6x6') ? PUZZLE(6) : PUZZLE(9) ;
       this.setState({ puzzle: puzzle,
@@ -61,25 +58,17 @@ class Upload extends Component {
     return true;
   }
 
-  componentDidMount() {
-    this.props.configUpload(null)
-  }
-
-  componentDidUpdate() {
-     console.log('updated', this.state.puzzle)
-  }
-
   handleChange(e, i, j) {
     const puzzle = this.state.puzzle;
     if (IsValidInput(e.target.value, puzzle.length)) {
       puzzle[i][j] = e.target.value;
-      this.setState({ puzzle: puzzle });
+      this.setState({ puzzle: puzzle,  uploading: true });
     }
   }
 
   renderGrid() {
     const grids = [];
-    const size = parseInt(this.props.config.size[0],10);
+    const size = parseInt(this.state.size[0],10);
     for (let i=0; i<size; i++) {
       for (let j=0; j<size; j++){
         const input = <input id={`${i}x${j}`} type='text'  
@@ -92,18 +81,13 @@ class Upload extends Component {
     const name = 'grid-' + size;
     return  <div className="upload-game">
               <h3>Enter a new Puzzle to upload. 
-                  (Level : {this.props.config.level})</h3>
+                  (Level : {this.state.level})</h3>
               <div id={name}>{grids}</div>  
             </div>
   }
 
-  showHelp(){
-    console.log('pressed for Help')
-  }
-
   render() {
-    console.log('in Upload :', this.props.user, this.props.config);
-    const mainBoard = (this.props.config) ? this.renderGrid() : <BoardPicture /> ;
+    const mainBoard = (this.state.uploading) ? this.renderGrid() : <BoardPicture /> ;
     return (
       <div>
         <AppHeader />
@@ -147,7 +131,7 @@ class Upload extends Component {
               <div className="buttons">
                 <button onClick={()=> this.saveConfig()}
                       id="save-btn">Save Config</button>
-                <button onClick={()=> this.uploadPuzzle()}
+                <button onClick={()=> this.savePuzzle()}
                       id="upload-btn">Upload Puzzle</button>
               </div>
             </div>
@@ -163,7 +147,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ configUpload, uploadPuzzle }, dispatch);
+  return bindActionCreators({ uploadPuzzle }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Upload);

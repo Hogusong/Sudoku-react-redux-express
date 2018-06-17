@@ -42,7 +42,7 @@ class GameOptions extends Component {
             <Link to="/puzzle/new">New Game</Link>
             <Link to="/puzzle/saved">Open Saved</Link>
             <Link to="/upload">Upload Puzzle</Link>
-            <a id='config' onClick={()=>this.gotoConfig()}>Change Config</a>
+            <Link to="/config">Change Config</Link>
           </div>
         </div>    
         <ConfigPuzzle />  

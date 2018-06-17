@@ -40,15 +40,16 @@ router.post('/signin', function(req, res, next) {
   console.log('in server to sign in')
   db.users.find({ username : req.body.username }, function(err, docs){
     if( !err && docs.length < 1 ) {
+      const date = (new Date()).toDateString().slice(4)
       db.users.save({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
         config : {
-          size: '',  level: '',  choice: '',
-          hint: 0,   time_count: ''
+          size: '9x9',  level: 'medium',  choice: 'random',
+          hint: 0,   time_count: 'yes'
         },
-        saved: [], solved: [],  upload: [], since: null
+        saved: [], solved: [], since: date
       }, function(err, saved) {
         if(err || !saved) res.json(null);
         else {
@@ -74,52 +75,12 @@ router.post('/setup', function(req, res, next) {
       res.json(null);
     } else {
       docs[0].password = '0000'
+      console.log(docs[0].config)
       res.json(docs[0])  
     }
   })
 })
  
-// Create Databases 
-router.post('/create', function(req, res, next) {
-  console.log(req.body)
-  db.users.find(function(err, docs) {
-    if (docs.length < 1) {
-      db.users.save({
-        username: 'admin',
-        email: 'hogusong1@yahoo.com',
-        password: 'narae1125',
-        config : {
-          size: '',  level: '',  choice: '',
-          hint: 0,   time_count: ''
-        },
-        saved: [], solved: [],  upload: [], since: null
-      }, function(err, saved) {
-        if(err || !saved) console.log('fali to create UserDB')
-        else console.log('UserDB is created')
-      })
-    } else {
-      console.log("Admin is there already.")
-    }
-  })
-
-  db.puzzleGroup.find(function(err, docs) {
-    if (docs.length < 1) {
-      db.puzzleGroup.save({ 
-        easy_4x4: [],  medium_4x4: [],  hard_4x4: [],  expert_4x4: [],
-        easy_6x6: [],  medium_6x6: [],  hard_6x6: [],  expert_6x6: [], 
-        easy_9x9: [],  medium_9x9: [],  hard_9x9: [],  expert_9x9: [] 
-      }, function(err, saved) {
-        if(err || !saved) console.log('fali to create PuzzlegrpupDB')
-        else console.log('PuzzleGrpupDB is created')
-      })    
-    } else {
-      console.log('Group is created already.')
-    }
-  })
-  res.json('Done')
-});
-
-
 
 /* 
 //Update user's info.

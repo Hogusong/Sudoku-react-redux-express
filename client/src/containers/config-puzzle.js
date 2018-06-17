@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { configUser } from '../actions';
 
-class PuzzleConfig extends Component {
+class ConfigPuzzle extends Component {
   constructor(props) {
     super(props);
     this.state = { changed: false,  }
@@ -159,4 +159,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ configUser }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PuzzleConfig);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigPuzzle);

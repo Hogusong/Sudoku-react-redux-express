@@ -1,4 +1,18 @@
-.puzzle-config {
+.config-body {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  overflow: hidden;
+  height: 80vh;
+}
+
+.config-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.user-config {
   display: grid;
   padding: 70px 0px 40px 5vw;
   grid-template: repeat(8,1fr);
@@ -18,14 +32,14 @@
 .puzzle-id {  height: 70px;  }
 .others {  height: 70px;  }
 
-.puzzle-config p {
+.user-config p {
   margin-left: 100px;
   margin-bottom: 5px;
 }
 
-.puzzle-config h3 {  margin-bottom: 6px!important; }
+.user-config h3 {  margin-bottom: 6px!important; }
 
-.puzzle-config #submit-btn {
+.user-config #submit-btn {
   width: 120px;
   height: 30px;
   margin-left: 63px;
@@ -74,6 +88,13 @@
   margin-left: 4px;
 }
 
+#saved {
+  display: none;
+  margin-left: 63px;
+  margin-top: 10px;
+  color: orchid
+}
+
 .time-count {  padding: 0;  }
 .time-count p {  margin: 8px 0 0 20px;  }
 .time-count input {  margin-left: 10px;  }
@@ -81,5 +102,5 @@
 
 @media(max-width: 800px) {
   /* .home-game {    margin-left: 7vw;  } */
-  .puzzle-config {    margin-left: 0;  }
+  .user-config {    margin-left: 0;  }
 }

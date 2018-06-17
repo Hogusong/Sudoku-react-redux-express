@@ -8,37 +8,54 @@ var db = mongojs('sudoku');
 router.post('/upload', function(req, res, next) {
   const { username, type, puzzle } = req.body;
   db.puzzles.find(function(err, docs) {
-    let puzzle_no = 10001;
-    if (docs.length > 0) puzzle_no = docs[docs.length-1].no + 1    
+    var puzzle_no = '10001';
+    if (docs.length > 0) puzzle_no = String(parseInt(docs[docs.length-1].no, 10) + 1);
     db.puzzles.save({ no: puzzle_no, type: type, puzzle: puzzle }, function(err, saved) {
       if (!err && saved) {
-        db.users.find({ username: username }, function(err, docs) {
-          if (docs.length > 0) {
-            const id = docs[0]._id;
-            const upload = docs[0].upload;
-            upload.push(puzzle_no)
-            db.users.update({_id: id}, {$set: { upload: upload }})
-          }
-        })
-        db.puzzleGroup.find({ type: type }, function(err, docs) {
+        db.puzzleGroup.find({ type: type, username: username }, function(err, docs) {
           if (docs.length < 1) {
-            db.puzzleGroup.save({ type: type, puzzles: [puzzle_no] }, function(err, saved) {
+            db.puzzleGroup.save({ type: type, username: username, puzzles: [puzzle_no] }, function(err, saved) {
               if(err || !saved) console.log('fali to create PuzzlegrpupDB')
               else console.log('PuzzleGrpupDB is created')
             })    
           } else {
+            const id = docs[0]._id;
             const puzzles = docs[0].puzzles;
             puzzles.push(puzzle_no);
-            db.puzzleGroup.update({ type: type }, {$set: { puzzles: puzzles }})
+            db.puzzleGroup.update({ _id: id }, {$set: { puzzles: puzzles }})
           }
         })
       }
     })  
   })
-  db.puzzleGroup.find(function(err,docs) {
-    console.log(docs);
-  })
   res.json(null);
+})
+
+// Pick a puzzle randomly //
+router.post('/random', function(req, res, next) {
+  const username = req.body.username;
+  const type = req.body.config.level + '_' + req.body.config.size;
+  db.puzzleGroup.find({ type: type, username: 'admin' }, function(err, docs) {
+    if (!err && docs.length > 0) {
+      let numbers = docs[0].puzzles;
+      db.puzzleGroup.find({ type: type, username: username }, function(err, docs) {
+        numbers = numbers.concat(docs[0].puzzles);
+        console.log('numbers:', numbers)
+        const puzzle_no = numbers[Math.floor(Math.random() * numbers.length)];
+        db.puzzles.find({ no: puzzle_no }, function(err, docs) {
+          if (err || docs.length < 1) { 
+            res.json(null) ;
+          } else {
+            const puzzle_info = { puzzle_no: puzzle_no, puzzle: docs[0].puzzle } ;
+            console.log('last step in server:', puzzle_info);
+            res.json(puzzle_info);
+          }
+        })
+      })
+    } else {
+      res.json(null);
+    }
+  })
 })
 
 module.exports = router;

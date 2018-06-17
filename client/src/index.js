@@ -10,6 +10,7 @@ import Home from './containers/home';
 import PuzzleNew from './containers/puzzle-new';
 import PuzzleSaved from './containers/puzzle-saved';
 import Upload from './containers/upload';
+import UserConfig from './containers/user-config';
 import './css/index.css';
 
 import reducers from './reducers';
@@ -24,6 +25,7 @@ ReactDOM.render(
           <Route exact path='/' component={Home} />
           <Route path='/puzzle/new' component={PuzzleNew} />
           <Route path='/puzzle/saved' component={PuzzleSaved} />
+          <Route path='/config' component={UserConfig} />
           <Route path='/upload' component={Upload} />
         </div>
         <footer>

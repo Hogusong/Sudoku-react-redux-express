@@ -5,7 +5,7 @@ import '../css/config.css';
 class DemoConfig extends Component {
   render() {
     return (
-      <div className="puzzle-config">
+      <div className="user-config">
         <h3 style={{color: 'orchid'}}>Puzzle Config :</h3>
         <div className="board-size">
           <h3>Board Size</h3>
