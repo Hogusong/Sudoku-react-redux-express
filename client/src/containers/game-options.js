@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import '../css/game-options.css';
-import ConfigPuzzle from './config-puzzle';
+// import ConfigPuzzle from './config-puzzle';
 
 class GameOptions extends Component {
   constructor(props) {
@@ -11,17 +11,31 @@ class GameOptions extends Component {
     this.state = { checkConfig: false,
                    size: '',  level: '',    choice: '',   
                    time_count: '',      hint:''  }
+    // this.gotoConfig = this.gotoConfig.bind(this);
   }
 
-  gotoConfig() {
-    document.getElementById('menu-game').style.display='none';
-    document.getElementById('config-puzzle').style.display='grid';
-    this.setState({ checkConfig: true })
-  }
+  // gotoConfig() {
+  //   console.log('goto config', this.props.user)
+  //   document.getElementById('menu-game').style.display='none';
+  //   document.getElementById('config-puzzle').style.display='grid';
+  //   this.setState({ checkConfig: true })
+  // }
 
-  componentDidMount() {
-    document.getElementById('config-puzzle').style.display='none';
-  }
+  // componentWillMount() {
+  //   document.getElementById('config-puzzle').style.display='none';
+  // }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("prev props", this.nextProps)
+    // if (nextProps.user) {
+    //   const config = nextProps.user.config;
+    //   this.setState({ 
+    //     size: config.size,  level: config.level,
+    //     choice: config.choice,  hint: config.hint,
+    //     time_count: config.time_count
+    //   })
+    // }
+  // }
 
   render() {
     const config = this.props.user.config;
@@ -43,9 +57,10 @@ class GameOptions extends Component {
             <Link to="/puzzle/saved">Open Saved</Link>
             <Link to="/upload">Upload Puzzle</Link>
             <Link to="/config">Change Config</Link>
+            {/* <button onClick={this.gotoConfig}>Change Config</button> */}
           </div>
         </div>    
-        <ConfigPuzzle />  
+        {/* <ConfigPuzzle />   */}
       </div>
     )
   }

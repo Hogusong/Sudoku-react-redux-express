@@ -44,13 +44,24 @@
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+.menu-btns button {
+  height: 36px;
+  width: 150px;
+  font-size: 15px;
+  border: 1px gray solid;
+  border-radius: 6px;
+  padding: 7px 0;
+  margin-bottom: 40px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);  
+}
+
 .menu-btns a:hover {
   background: black;
   color: white;
 }
 
 .config-puzzle {
-  display: grid;
+  display: none;
   padding: 70px 0px 40px 5vw;
   grid-template: repeat(8,1fr);
   width: 240px;

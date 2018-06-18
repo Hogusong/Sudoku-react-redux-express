@@ -28,7 +28,6 @@ class ConfigPuzzle extends Component {
       }
       this.setState({ changed: true })
       this.props.configUser(this.props.user.username, config)
-      this.backToGameOption()
     }
   }
 
@@ -69,11 +68,11 @@ class ConfigPuzzle extends Component {
     }
   }
 
-  // componentDidUpdate() {
-  //   if (this.state.changed) {
-  //     this.backToGameOption()
-  //   }
-  // }
+  componentDidUpdate() {
+    if (this.state.changed) {
+      this.backToGameOption()
+    }
+  }
 
   render() {
     return (

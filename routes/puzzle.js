@@ -41,12 +41,17 @@ router.post('/random', function(req, res, next) {
       db.puzzleGroup.find({ type: type, username: username }, function(err, docs) {
         numbers = numbers.concat(docs[0].puzzles);
         console.log('numbers:', numbers)
-        const puzzle_no = numbers[Math.floor(Math.random() * numbers.length)];
+        let puzzle_no = ''
+        const repeat = Math.floor(Math.random()*9);
+        for (let i=0; i<repeat; i++) {
+          puzzle_no = numbers[Math.floor(Math.random() * numbers.length)];
+        }
         db.puzzles.find({ no: puzzle_no }, function(err, docs) {
           if (err || docs.length < 1) { 
             res.json(null) ;
           } else {
-            const puzzle_info = { puzzle_no: puzzle_no, puzzle: docs[0].puzzle } ;
+            const puzzle_info = { puzzle_no: puzzle_no, type: type, 
+                                  puzzle: docs[0].puzzle } ;
             console.log('last step in server:', puzzle_info);
             res.json(puzzle_info);
           }

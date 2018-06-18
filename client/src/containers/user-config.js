@@ -25,7 +25,6 @@ class UserConfig extends Component {
         time_count: this.state.time_count,
         hint: this.state.hint      
       }
-      console.log('saved ...', config);
       this.props.configUser(this.props.user.username, config)
       document.getElementById('saved').style.display='block';
     }
@@ -66,11 +65,9 @@ class UserConfig extends Component {
         document.getElementById(config.time_count).defaultChecked = true;
       }
     }
-    console.log(config);
   }
 
   render() {
-    console.log('render config', this.props.user, this.state);
     return (
       <div>
         <AppHeader />
