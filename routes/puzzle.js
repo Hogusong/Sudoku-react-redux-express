@@ -15,8 +15,8 @@ router.post('/upload', function(req, res, next) {
         db.puzzleGroup.find({ type: type, username: username }, function(err, docs) {
           if (docs.length < 1) {
             db.puzzleGroup.save({ type: type, username: username, puzzles: [puzzle_no] }, function(err, saved) {
-              if(err || !saved) console.log('fali to create PuzzlegrpupDB')
-              else console.log('PuzzleGrpupDB is created')
+              if(err || !saved) console.log('fali to create PuzzlegroupDB')
+              else console.log('PuzzleGroupDB is created')
             })    
           } else {
             const id = docs[0]._id;
@@ -40,7 +40,6 @@ router.post('/random', function(req, res, next) {
       let numbers = docs[0].puzzles;
       db.puzzleGroup.find({ type: type, username: username }, function(err, docs) {
         numbers = numbers.concat(docs[0].puzzles);
-        console.log('numbers:', numbers)
         let puzzle_no = ''
         const repeat = Math.floor(Math.random()*9);
         for (let i=0; i<repeat; i++) {
@@ -52,7 +51,6 @@ router.post('/random', function(req, res, next) {
           } else {
             const puzzle_info = { puzzle_no: puzzle_no, type: type, 
                                   puzzle: docs[0].puzzle } ;
-            console.log('last step in server:', puzzle_info);
             res.json(puzzle_info);
           }
         })

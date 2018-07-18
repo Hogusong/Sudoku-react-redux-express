@@ -37,7 +37,6 @@ router.post('/login', function(req, res, next) {
 
 /* Sign in a user. */
 router.post('/signin', function(req, res, next) {
-  console.log('in server to sign in')
   db.users.find({ username : req.body.username }, function(err, docs){
     if( !err && docs.length < 1 ) {
       const date = (new Date()).toDateString().slice(4)
@@ -75,47 +74,31 @@ router.post('/setup', function(req, res, next) {
       res.json(null);
     } else {
       docs[0].password = '0000'
-      console.log(docs[0].config)
       res.json(docs[0])  
     }
   })
 })
  
+// Upload a new puzzle //
+router.post('/solved', function(req, res, next) {
+  const { username, puzzle_no, hint, wrong, type, seconds } = req.body;
+  db.users.find({ username: username }, function(err, docs) {
+    if (docs.length > 0) {
+      const id = docs[0]._id
+      const solved = docs[0].solved
+      solved.push({puzzle_no, type, hint, wrong, seconds})
+      db.users.update({ _id: id }, {$set: { solved: solved }})
+      db.users.find({ _id: id }, function(err, docs) {
+        if (docs.length > 0) res.json(docs[0]) ;
+        else res.json(null) ;
+      })
+    } else {
+      res.json(null)
+    }
+  })
+})
 
-/* 
-//Update user's info.
-router.post('/update', function(req, res, next) {
-  const olduser = req.body[0];
-  const newuser = req.body[1];
-  let result = '';
-  result = checkValidate(newuser);
-  if ( !result && olduser.firstname !== newuser.firstname) {
-    result = isNameTaken(newuser.firstname)
-  }
-  if ( !result && olduser.email !== newuser.email) {
-    result = isEmailTaken(newuser.email)
-  }
-
-  if ( !result ) {
-    db.users.find({ firstname: olduser.firstname }, function(err, docs){
-      if (err) res.json("System erro. Try again.")
-      else if ( docs.length < 1 ) res.json("No username found.") ;
-      else  {
-        const id = docs[0]._id;
-        db.users.update({_id: id}, {$set: {
-              firstname: newuser.firstname,
-              lastname: newuser.lastname,
-              email: newuser.email
-        }})
-        newuser._id = id;
-        res.json(newuser);
-      }
-    })
-  } else { 
-    res.json(result);
-  }
-});
-
+/*
 function checkValidate(user) {
   console.log(user);
   if (user.firstname.length < 3) return "username is too short.";
@@ -139,4 +122,5 @@ function isEmailTaken(email) {
   })
 }
 */
+
 module.exports = router;

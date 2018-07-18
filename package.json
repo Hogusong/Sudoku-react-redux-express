@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"node ./bin/www\" \"cd client && npm start\""
+    "start": "concurrently \"node ./bin/www\" \"cd client && npm start\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -19,9 +22,17 @@
     "react-router-dom": "^4.2.2",
     "redux": "^4.0.0",
     "redux-promise": "^0.6.0",
-    "shacrypt": "^0.1.0"
+    "shacrypt": "^0.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.1"
   },
   "devDependencies": {
     "concurrently": "^3.5.1"
+  },
+  
+  "engines": {
+    "npm": "6.1.0",
+    "node": "8.11.2"
   }
 }

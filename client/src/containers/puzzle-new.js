@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchRandom } from '../actions';
+import { fetchRandom, postSolved } from '../actions';
 
 import '../css/puzzle-new.css';
 import { BackGround, GetSolution, IsValidInput } from '../Global';
@@ -55,6 +55,11 @@ class PuzzleNew extends Component {
     for (let i=0; i<hint; i++) {
       this.oneHint(puzzle, occupied, answer, i+1)
     }
+    for (let r=0; r<puzzle.length; r++) {
+      for (let c=0; c<puzzle.length; c++){
+        document.getElementById(`${r}x${c}`).style.color = 'black';
+      }
+    }        
   }
 
   handleChange(e, r, c) {
@@ -65,23 +70,6 @@ class PuzzleNew extends Component {
       this.setState({ puzzle: puzzle,  checkedStatus: false });
       document.getElementById(`${r}x${c}`).style.color = 'blue';
     }
-  }
-
-  renderGrid() {
-    const grids = [];
-    const size = parseInt(this.props.user.config.size[0],10);
-    for (let i=0; i<size; i++) {
-      for (let j=0; j<size; j++){
-        const input = <input id={`${i}x${j}`} type='text'  
-          style={{background:`${BackGround(i,j,size)}`}}
-          key={`${i}x${j}`} value={(this.state.puzzle) ? (this.state.puzzle[i][j]) : null }
-          onChange={(e)=>this.handleChange(e,i,j)} />
-        grids.push(input);
-      }
-    }
-    if (size===4) {  return <div id='grid-4'>{grids}</div>  }
-    if (size===6) {  return <div id='grid-6'>{grids}</div>  }
-    if (size===9) {  return <div id='grid-9'>{grids}</div>  }
   }
 
   showHelp(){
@@ -118,7 +106,8 @@ class PuzzleNew extends Component {
                                 wrong: this.state.wrong,
                                 type: this.props.puzzle_info.type,
                                 seconds: seconds - this.state.seconds  })
-      alert('You did good job...')
+      this.newGame();
+      alert('Very well. You did good job...');
     }
   }
 
@@ -146,10 +135,7 @@ class PuzzleNew extends Component {
       const answer = (ans) ? ans : this.state.answer ;
       const puzzle = (puz) ? puz : this.state.puzzle ;
       const occupied = (occ) ? occ : this.state.occupied ;
-      console.log('ht', ht)
-      console.log('hint', this.state.hint)
       const hint = (ht) ? ht : this.state.hint+1 ;
-      console.log('hint', hint)
       while (!isFull(occupied)) {
         const row = Math.floor(Math.random()*answer.length) ;
         const col = Math.floor(Math.random()*answer.length) ;
@@ -193,9 +179,25 @@ class PuzzleNew extends Component {
   newGame() {
     this.props.fetchRandom(this.props.user);
   }
+  
+  renderGrid() {
+    const grids = [];
+    const size = parseInt(this.props.user.config.size[0],10);
+    for (let i=0; i<size; i++) {
+      for (let j=0; j<size; j++){
+        const input = <input id={`${i}x${j}`} type='text'  
+          style={{background:`${BackGround(i,j,size)}`}}
+          key={`${i}x${j}`} value={(this.state.puzzle) ? (this.state.puzzle[i][j]) : null }
+          onChange={(e)=>this.handleChange(e,i,j)} />
+        grids.push(input);
+      }
+    }
+    if (size===4) {  return <div id='grid-4'>{grids}</div>  }
+    if (size===6) {  return <div id='grid-6'>{grids}</div>  }
+    if (size===9) {  return <div id='grid-9'>{grids}</div>  }
+  }
 
   render() {
-    console.log('in render:', this.props.puzzle_info, this.state.answer)
     const configDetail = (!this.props.user) ? 
         <div id='detail'>Need to set config</div> :
         <div id='detail'>
@@ -251,6 +253,7 @@ class PuzzleNew extends Component {
 function isFull(arr) {
   for (let r=0; r<arr.length; r++) {
     for (let c=0; c<arr.length; c++) {
+      document.getElementById(`${r}x${c}`).style.color = 'black';
       if (!arr[r][c]) return false;
     }
   }
@@ -262,7 +265,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRandom }, dispatch);
+  return bindActionCreators({ fetchRandom, postSolved }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PuzzleNew);

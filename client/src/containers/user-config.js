@@ -26,6 +26,7 @@ class UserConfig extends Component {
         hint: this.state.hint      
       }
       this.props.configUser(this.props.user.username, config)
+      this.props.configUser(this.props.user.username, config)
       document.getElementById('saved').style.display='block';
     }
   }

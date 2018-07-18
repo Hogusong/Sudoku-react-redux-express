@@ -10,6 +10,7 @@ import GameOptions from './game-options';
 
 class Home extends Component {
   render() {
+    // console.log('in Home:', this.props.user)
     const renderDOM = (!this.props.user) ?  <DemoConfig /> : <GameOptions />;
     return (
       <div>
@@ -31,5 +32,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Home);
-
-

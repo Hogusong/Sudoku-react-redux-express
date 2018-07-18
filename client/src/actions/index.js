@@ -5,6 +5,7 @@ export const CONFIG_UPLOAD = 'CONFIG_UPLOAD';
 export const LOGOUT = 'LOGOUT';
 export const UPLOAD_PUZZLE = 'UPLOAD_PUZZLE';
 export const GET_PUZZLE = 'GET_PUZZLE';
+export const POST_SOLVED = 'POST_SOLVED';
 
 export function createUser(user) {
   const request = fetch('/user/signin/', {
@@ -131,6 +132,28 @@ export const fetchRandom = (user) => {
     })
   return {
     type: GET_PUZZLE,
+    payload: request
+  }
+}
+
+export function postSolved(data) {
+  const request = fetch('/user/solved/', {
+    method: "post",
+    headers: {
+      "Access-Control-Allow-Origin": 'http://localhost:3000',
+      "Access-Control-Allow-Credentials": 'true',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },      
+    body: JSON.stringify(data)
+  }).then(res => {
+      return res.json()
+    })
+    .then(user => { 
+      return user;
+    })
+  return {
+    type:  POST_SOLVED,
     payload: request
   }
 }
